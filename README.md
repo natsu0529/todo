@@ -84,6 +84,20 @@ streamlit run streamlit_app.py
 
 **代替方法**: Main file path を `main.py` に設定
 
+## 🔍 デバッグ: 何も表示されない場合
+
+**症状**: Streamlit Cloudで画面が空白、または何も表示されない
+
+**デバッグ手順**:
+1. **Main file path**を一時的に `debug_app.py` に変更
+2. デバッグ情報を確認
+3. 正常動作を確認後、`streamlit_app.py` に戻す
+
+**確認事項**:
+- メインファイルが `streamlit_app.py` に設定されているか
+- ブラウザのキャッシュをクリア
+- 「Reboot app」を実行したか
+
 ### デプロイ手順
 
 1. https://share.streamlit.io でアカウント作成

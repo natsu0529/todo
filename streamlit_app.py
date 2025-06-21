@@ -3,6 +3,9 @@ import json
 import os
 from datetime import datetime
 
+# デバッグ: アプリが読み込まれていることを確認
+st.write("🔄 streamlit_app.pyが読み込まれました")
+
 # ページ設定
 st.set_page_config(
     page_title="TODO アプリ",
