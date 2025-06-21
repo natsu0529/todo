@@ -89,6 +89,17 @@ Streamlit Cloudでデプロイする際は、以下のいずれかを**メイン
 3. **Main file path** に `streamlit_app.py` を指定
 4. 自動的にデプロイされます
 
+### トラブルシューティング
+
+**エラー: "Error installing requirements"**
+- `runtime.txt` で Python 3.11 を指定済み
+- `requirements.txt` は最小限の構成
+- Streamlit Cloudが自動的に依存関係を解決します
+
+**エラー: "This app has encountered an error"**
+- メインファイルが `streamlit_app.py` に設定されているか確認
+- `app.py` はFlask専用のため使用しないでください
+
 ## API エンドポイント (Flask版のみ)
 
 | メソッド | エンドポイント | 説明 |
