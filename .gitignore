@@ -56,6 +56,10 @@ Thumbs.db
 # Logs
 *.log
 app.log
+nohup.out
 
 # Data files
 todos.json
+
+# Streamlit
+*.streamlit/

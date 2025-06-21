@@ -73,9 +73,21 @@ streamlit run streamlit_app.py
 
 ## Streamlit Cloudでのデプロイ
 
-1. GitHubリポジトリをStreamlit Cloudに接続
-2. `streamlit_app.py`をメインファイルとして指定
-3. 自動的にデプロイされます
+### 重要: メインファイルの指定
+
+Streamlit Cloudでデプロイする際は、以下のいずれかを**メインファイル**として指定してください：
+
+1. **推奨**: `streamlit_app.py` 
+2. **代替**: `main.py` (自動リダイレクト付き)
+
+⚠️ **絶対に `app.py` をメインファイルに指定しないでください** - これはFlask専用です。
+
+### デプロイ手順
+
+1. https://share.streamlit.io でアカウント作成
+2. GitHubリポジトリを接続
+3. **Main file path** に `streamlit_app.py` を指定
+4. 自動的にデプロイされます
 
 ## API エンドポイント (Flask版のみ)
 

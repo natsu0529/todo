@@ -66,17 +66,25 @@ def api_todos():
     return jsonify(todos)
 
 if __name__ == '__main__':
-    # Streamlit環境では実行しない
-    try:
-        import streamlit
-        print("Streamlit環境が検出されました。streamlit_app.pyを使用してください。")
-        print("このファイル(app.py)はFlask専用です。")
-        exit(0)
-    except ImportError:
-        pass
+    # Streamlit環境では実行しない - より確実な検出方法
+    import sys
+    
+    # Streamlit環境の検出
+    if 'streamlit' in sys.modules or 'STREAMLIT_SERVER_PORT' in os.environ:
+        print("❌ Streamlit環境が検出されました。")
+        print("🔄 このファイル(app.py)はFlask専用です。")
+        print("✅ Streamlit版を使用するには 'streamlit_app.py' を実行してください。")
+        sys.exit(0)
+    
+    # Streamlit Cloudの環境変数をチェック
+    if any(key.startswith('STREAMLIT_') for key in os.environ.keys()):
+        print("❌ Streamlit Cloud環境が検出されました。")
+        print("🔄 streamlit_app.py を使用してください。")
+        sys.exit(0)
+    
+    print("✅ Flask環境で実行中...")
     
     # Flask環境でのみ実行
-    import os
     port = int(os.environ.get('PORT', 5001))
     debug = os.environ.get('FLASK_ENV') != 'production'
     app.run(debug=debug, host='0.0.0.0', port=port)
