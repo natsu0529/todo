@@ -66,7 +66,16 @@ def api_todos():
     return jsonify(todos)
 
 if __name__ == '__main__':
-    # Streamlit Cloud環境でのデプロイメント対応
+    # Streamlit環境では実行しない
+    try:
+        import streamlit
+        print("Streamlit環境が検出されました。streamlit_app.pyを使用してください。")
+        print("このファイル(app.py)はFlask専用です。")
+        exit(0)
+    except ImportError:
+        pass
+    
+    # Flask環境でのみ実行
     import os
     port = int(os.environ.get('PORT', 5001))
     debug = os.environ.get('FLASK_ENV') != 'production'
