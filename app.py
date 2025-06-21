@@ -1,6 +1,21 @@
+# Streamlit環境での実行を完全に防ぐ
+import os
+import sys
+
+# 最初にStreamlit環境をチェック
+if ('streamlit' in sys.modules or 
+    'STREAMLIT_SERVER_PORT' in os.environ or 
+    any(key.startswith('STREAMLIT_') for key in os.environ.keys()) or
+    '/mount/src/' in os.getcwd() or  # Streamlit Cloud特有のパス
+    'adminuser' in os.getcwd()):     # Streamlit Cloud特有のユーザー
+    
+    print("🚫 このファイル(app.py)はStreamlit環境では実行できません")
+    print("✅ 代わりに 'streamlit_app.py' を使用してください")
+    print("⚙️  Streamlit Cloud設定: Main file path を 'streamlit_app.py' に変更してください")
+    sys.exit(1)
+
 from flask import Flask, render_template, request, redirect, url_for, jsonify
 import json
-import os
 
 app = Flask(__name__)
 

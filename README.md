@@ -71,16 +71,18 @@ streamlit run streamlit_app.py
 
 自動的にブラウザで開きます
 
-## Streamlit Cloudでのデプロイ
+## 🚨 緊急対応: ModuleNotFoundError (Flask)
 
-### 重要: メインファイルの指定
+**症状**: `ModuleNotFoundError: No module named 'flask'`
 
-Streamlit Cloudでデプロイする際は、以下のいずれかを**メインファイル**として指定してください：
+**原因**: Streamlit CloudでFlaskファイル（`app.py`）が実行されている
 
-1. **推奨**: `streamlit_app.py` 
-2. **代替**: `main.py` (自動リダイレクト付き)
+**即座の解決方法**:
+1. Streamlit Cloud で「**Manage app**」→「**Settings**」をクリック
+2. **Main file path** を `app.py` から `streamlit_app.py` に変更
+3. 「**Save**」→「**Reboot app**」をクリック
 
-⚠️ **絶対に `app.py` をメインファイルに指定しないでください** - これはFlask専用です。
+**代替方法**: Main file path を `main.py` に設定
 
 ### デプロイ手順
 

@@ -1,20 +1,18 @@
-import streamlit as st
-
 # このファイルは Streamlit Cloud でのメインエントリーポイントです
-# 実際のアプリは streamlit_app.py にあります
+# streamlit_app.py を実行します
 
-st.title("🔄 リダイレクト中...")
-st.info("このページは自動的にメインアプリにリダイレクトされます。")
+import os
+import sys
 
-# JavaScript を使用してリダイレクト
-st.markdown("""
-<script>
-window.location.href = 'streamlit_app.py';
-</script>
-""", unsafe_allow_html=True)
+print("🔄 メインアプリ (streamlit_app.py) を読み込んでいます...")
 
-# Python でのリダイレクト
-st.markdown("メインアプリを読み込んでいます...")
-
-# streamlit_app.py の内容を実行
-exec(open('streamlit_app.py').read())
+# streamlit_app.py が存在するかチェック
+if os.path.exists('streamlit_app.py'):
+    # streamlit_app.py の内容を実行
+    with open('streamlit_app.py', 'r', encoding='utf-8') as f:
+        code = f.read()
+    exec(code)
+else:
+    import streamlit as st
+    st.error("streamlit_app.py が見つかりません")
+    st.info("このアプリを正常に動作させるには、streamlit_app.py ファイルが必要です。")
