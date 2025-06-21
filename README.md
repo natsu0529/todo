@@ -92,13 +92,23 @@ Streamlit Cloudでデプロイする際は、以下のいずれかを**メイン
 ### トラブルシューティング
 
 **エラー: "Error installing requirements"**
-- `runtime.txt` で Python 3.11 を指定済み
-- `requirements.txt` は最小限の構成
-- Streamlit Cloudが自動的に依存関係を解決します
+
+1. **Python バージョン**: `runtime.txt` で Python 3.10 を指定済み
+2. **依存関係**: `requirements.txt` を最小限に設定 (`streamlit==1.28.1`)
+3. **フォールバック**: エラーが続く場合は以下を試してください：
+   - `requirements.txt` の内容を `streamlit` のみに変更
+   - または `requirements-fallback.txt` の内容をコピー
 
 **エラー: "This app has encountered an error"**
 - メインファイルが `streamlit_app.py` に設定されているか確認
 - `app.py` はFlask専用のため使用しないでください
+
+**Streamlit Cloud設定確認手順**:
+1. Streamlit Cloud ダッシュボードで「Manage app」をクリック
+2. 「Settings」タブを選択
+3. **Main file path**: `streamlit_app.py` を確認
+4. **Python version**: `3.10` を確認
+5. 「Save」をクリック後、「Reboot app」を実行
 
 ## API エンドポイント (Flask版のみ)
 
