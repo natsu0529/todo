@@ -2,6 +2,18 @@
 
 シンプルで美しいTODOリスト管理アプリケーション
 
+## 2つのバージョン
+
+### 1. Flask版 (`app.py`)
+- 従来のWebアプリケーション
+- HTML/CSS/JavaScriptベースのUI
+- RESTful API付き
+
+### 2. Streamlit版 (`streamlit_app.py`)  
+- モダンなWebアプリフレームワーク
+- インタラクティブなUI
+- Streamlit Cloud対応
+
 ## 特徴
 
 - ✅ タスクの追加・削除・編集
@@ -9,12 +21,12 @@
 - ✅ モダンで美しいUI
 - ✅ レスポンシブデザイン
 - ✅ データの永続化（JSON）
-- ✅ RESTful API
+- ✅ 統計情報の表示
 
 ## 技術スタック
 
-- **Backend**: Flask (Python)
-- **Frontend**: HTML, CSS, JavaScript
+- **Flask版**: Flask (Python) + HTML/CSS/JavaScript
+- **Streamlit版**: Streamlit (Python)
 - **Data Storage**: JSON ファイル
 
 ## セットアップ
@@ -22,7 +34,7 @@
 ### 1. リポジトリをクローン
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/natsu0529/todo.git
 cd todo
 ```
 
@@ -41,17 +53,31 @@ venv\Scripts\activate     # Windows
 pip install -r requirements.txt
 ```
 
-### 4. アプリケーションを起動
+## 実行方法
+
+### Flask版を実行
 
 ```bash
 python app.py
 ```
 
-### 5. ブラウザでアクセス
+http://localhost:5001 でアクセス
 
-http://localhost:5001 にアクセスしてアプリを使用できます。
+### Streamlit版を実行
 
-## API エンドポイント
+```bash
+streamlit run streamlit_app.py
+```
+
+自動的にブラウザで開きます
+
+## Streamlit Cloudでのデプロイ
+
+1. GitHubリポジトリをStreamlit Cloudに接続
+2. `streamlit_app.py`をメインファイルとして指定
+3. 自動的にデプロイされます
+
+## API エンドポイント (Flask版のみ)
 
 | メソッド | エンドポイント | 説明 |
 |---------|------------|------|
@@ -65,10 +91,11 @@ http://localhost:5001 にアクセスしてアプリを使用できます。
 
 ```
 todo/
-├── app.py              # メインアプリケーション
+├── app.py              # Flask版メインアプリ
+├── streamlit_app.py    # Streamlit版メインアプリ
 ├── requirements.txt    # 依存関係
 ├── templates/
-│   └── index.html     # HTMLテンプレート
+│   └── index.html     # Flask版HTMLテンプレート
 ├── todos.json         # データファイル（自動生成）
 └── README.md          # このファイル
 ```
