@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TODO アプリ</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+        
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+        
+        .add-todo {
+            padding: 30px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .add-form {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .add-form input[type="text"] {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .add-form input[type="text"]:focus {
+            border-color: #667eea;
+        }
+        
+        .add-form button {
+            padding: 15px 25px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .add-form button:hover {
+            transform: translateY(-2px);
+        }
+        
+        .todos {
+            padding: 0;
+        }
+        
+        .todo-item {
+            display: flex;
+            align-items: center;
+            padding: 20px 30px;
+            border-bottom: 1px solid #f0f0f0;
+            transition: background-color 0.3s;
+        }
+        
+        .todo-item:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .todo-item.completed {
+            background-color: #f8f9fa;
+            opacity: 0.7;
+        }
+        
+        .todo-checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ddd;
+            border-radius: 50%;
+            margin-right: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .todo-checkbox.completed {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-color: #667eea;
+        }
+        
+        .todo-checkbox.completed::after {
+            content: '✓';
+            color: white;
+            font-weight: bold;
+            font-size: 12px;
+        }
+        
+        .todo-text {
+            flex: 1;
+            font-size: 16px;
+            color: #333;
+        }
+        
+        .todo-text.completed {
+            text-decoration: line-through;
+            color: #999;
+        }
+        
+        .todo-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .btn-toggle {
+            background: #28a745;
+            color: white;
+        }
+        
+        .btn-toggle:hover {
+            background: #218838;
+        }
+        
+        .btn-delete {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .btn-delete:hover {
+            background: #c82333;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 30px;
+            color: #999;
+        }
+        
+        .empty-state h3 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+        
+        .stats {
+            background: #f8f9fa;
+            padding: 15px 30px;
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📝 TODO アプリ</h1>
+            <p>あなたのタスクを効率的に管理しましょう</p>
+        </div>
+        
+        <div class="add-todo">
+            <form method="POST" action="/add" class="add-form">
+                <input type="text" name="task" placeholder="新しいタスクを入力してください..." required>
+                <button type="submit">追加</button>
+            </form>
+        </div>
+        
+        <div class="todos">
+            {% if todos %}
+                {% for todo in todos %}
+                <div class="todo-item {% if todo.completed %}completed{% endif %}">
+                    <div class="todo-checkbox {% if todo.completed %}completed{% endif %}" 
+                         onclick="window.location.href='/toggle/{{ todo.id }}'"></div>
+                    <div class="todo-text {% if todo.completed %}completed{% endif %}">
+                        {{ todo.task }}
+                    </div>
+                    <div class="todo-actions">
+                        <a href="/toggle/{{ todo.id }}" class="btn btn-toggle">
+                            {% if todo.completed %}未完了{% else %}完了{% endif %}
+                        </a>
+                        <a href="/delete/{{ todo.id }}" class="btn btn-delete" 
+                           onclick="return confirm('このタスクを削除しますか？')">削除</a>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="empty-state">
+                    <h3>📋 タスクがありません</h3>
+                    <p>上のフォームから新しいタスクを追加してください</p>
+                </div>
+            {% endif %}
+        </div>
+        
+        {% if todos %}
+        <div class="stats">
+            全{{ todos|length }}件のタスク - 
+            完了: {{ todos|selectattr('completed')|list|length }}件 - 
+            未完了: {{ todos|rejectattr('completed')|list|length }}件
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
