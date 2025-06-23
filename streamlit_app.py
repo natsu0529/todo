@@ -3,15 +3,28 @@ import json
 import os
 from datetime import datetime
 
-# デバッグ: アプリが読み込まれていることを確認
-st.write("🔄 streamlit_app.pyが読み込まれました")
+# Streamlit Cloud デバッグ情報
+st.write("✅ Streamlit アプリが正常に読み込まれました")
+st.write(f"🐍 Python バージョン: {st.__version__}")
 
-# ページ設定
-st.set_page_config(
-    page_title="TODO アプリ",
-    page_icon="📝",
-    layout="centered"
-)
+# ページ設定を最初に実行
+try:
+    st.set_page_config(
+        page_title="TODO アプリ",
+        page_icon="📝",
+        layout="centered"
+    )
+except Exception as e:
+    st.error(f"ページ設定エラー: {e}")
+
+# デバッグ: 現在のディレクトリとファイル一覧を表示
+current_dir = os.getcwd()
+st.write(f"📁 現在のディレクトリ: {current_dir}")
+try:
+    files = os.listdir(current_dir)
+    st.write(f"📋 ファイル一覧: {files}")
+except Exception as e:
+    st.error(f"ファイル一覧取得エラー: {e}")
 
 # TODO データファイル
 TODO_FILE = 'todos.json'
