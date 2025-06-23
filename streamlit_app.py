@@ -72,60 +72,60 @@ with st.form("add_todo_form"):
         add_todo(new_task)
         st.success(f"タスク「{new_task}」を追加しました！")
         st.rerun()
-    
-    # TODOリストの表示
-    st.markdown("---")
-    todos = load_todos()
-    
-    if not todos:
-        st.info("📋 タスクがありません。上のフォームから新しいタスクを追加してください。")
-    else:
-        # 統計情報
-        total_todos = len(todos)
-        completed_todos = len([todo for todo in todos if todo['completed']])
-        pending_todos = total_todos - completed_todos
-        
-        col1, col2, col3 = st.columns(3)
-        with col1:
-            st.metric("総タスク数", total_todos)
-        with col2:
-            st.metric("完了", completed_todos)
-        with col3:
-            st.metric("未完了", pending_todos)
-        
-        st.markdown("---")
-        st.markdown("### タスク一覧")
-        
-        # TODOアイテムの表示
-        for todo in todos:
-            col1, col2, col3 = st.columns([0.1, 0.7, 0.2])
-            
-            with col1:
-                # チェックボックス
-                is_completed = st.checkbox("", value=todo['completed'], key=f"check_{todo['id']}")
-                if is_completed != todo['completed']:
-                    toggle_todo(todo['id'])
-                    st.rerun()
-            
-            with col2:
-                # タスクテキスト
-                if todo['completed']:
-                    st.markdown(f"~~{todo['task']}~~")
-                else:
-                    st.markdown(todo['task'])
-            
-            with col3:
-                # 削除ボタン
-                if st.button("🗑️", key=f"delete_{todo['id']}", help="削除"):
-                    delete_todo(todo['id'])
-                    st.rerun()
 
-        # 全て完了したタスクを削除するボタン
-        if completed_todos > 0:
-            st.markdown("---")
-            if st.button("完了したタスクをすべて削除", type="secondary"):
-                todos = load_todos()
-                todos = [todo for todo in todos if not todo['completed']]
-                save_todos(todos)
-                st.success(f"{completed_todos}個の完了タスクを削除しました！")
+# TODOリストの表示
+st.markdown("---")
+todos = load_todos()
+
+if not todos:
+    st.info("📋 タスクがありません。上のフォームから新しいタスクを追加してください。")
+else:
+    # 統計情報
+    total_todos = len(todos)
+    completed_todos = len([todo for todo in todos if todo['completed']])
+    pending_todos = total_todos - completed_todos
+    
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.metric("総タスク数", total_todos)
+    with col2:
+        st.metric("完了", completed_todos)
+    with col3:
+        st.metric("未完了", pending_todos)
+    
+    st.markdown("---")
+    st.markdown("### タスク一覧")
+    
+    # TODOアイテムの表示
+    for todo in todos:
+        col1, col2, col3 = st.columns([0.1, 0.7, 0.2])
+        
+        with col1:
+            # チェックボックス
+            is_completed = st.checkbox("", value=todo['completed'], key=f"check_{todo['id']}")
+            if is_completed != todo['completed']:
+                toggle_todo(todo['id'])
                 st.rerun()
+        
+        with col2:
+            # タスクテキスト
+            if todo['completed']:
+                st.markdown(f"~~{todo['task']}~~")
+            else:
+                st.markdown(todo['task'])
+        
+        with col3:
+            # 削除ボタン
+            if st.button("🗑️", key=f"delete_{todo['id']}", help="削除"):
+                delete_todo(todo['id'])
+                st.rerun()
+
+    # 全て完了したタスクを削除するボタン
+    if completed_todos > 0:
+        st.markdown("---")
+        if st.button("完了したタスクをすべて削除", type="secondary"):
+            todos = load_todos()
+            todos = [todo for todo in todos if not todo['completed']]
+            save_todos(todos)
+            st.success(f"{completed_todos}個の完了タスクを削除しました！")
+            st.rerun()
